@@ -31,25 +31,29 @@
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black');
             colorRect(playerXpos,playerYpos,PLAYER_SIZE,PLAYER_SIZE, 'red');
-            playerMove(playerXspeed,playerYspeed);
+            
+            playerMove();
         }
         
-        function KeyPressed(evt){
-            console.log(evt.keycode)
-            if(evt.keycode == RIGHT_KEY)
-            rightKeyPressed = true;
-        }
-        function KeyReleased(evt){
-            console.log(evt.keycode)
-            if(evt.keycode == RIGHT_KEY)
-            rightKeyPressed = false;
+        function keyPressed(evt){
+            console.log(evt.keyCode)
+            if(evt.keyCode == RIGHT_KEY){
+                rightKeyPressed = true;
+            }
         }
         
+        function keyReleased(evt){
+            console.log(evt.keyCode)
+            if(evt.keyCode == RIGHT_KEY){
+                rightKeyPressed = false;
+            }
+        }
         
-        
+
         function playerMove() {
-            playerXpos += playerXspeed;
-            playerYpos += playerYspeed;
+            if(rightKeyPressed){
+                playerXpos += playerXspeed;
+            }
         }
 
         function colorRect(x, y, w, h, c) {
@@ -59,3 +63,8 @@
 
     </script>
 </body>
+
+
+
+
+32 = space 
