@@ -23,21 +23,24 @@
         var playerYpos = 450;
         var playerXspeed = 4;
         var playerYspeed = 4;
-        var jumpPower = -5;
+        var jumpPower = -10;
+        var fallPower = 10;
         var fallRate = 0.2;
-        var enemyXpos =500;
-        var enemyYpos =500;
-        
+        var enemyXpos = 500;
+        var enemyYpos = 500;
+
         const ENEMY_WIDTH = 50;
         const ENEMY_HEIGHT = 100;
         const PLAYER_SIZE = 20;
         const LEFT_KEY = 37;
-        const SPACE_KEY = 32;
+        const UP_KEY = 38;
         const RIGHT_KEY = 39;
+        const DOWN_KEY = 40;
 
         var leftKeyPressed = false;
         var rightKeyPressed = false;
-        var spaceKeyPressed = false;
+        var upKeyPressed = false;
+        var downKeyPressed = false;
 
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black');
@@ -55,10 +58,14 @@
             if (evt.keyCode == LEFT_KEY) {
                 leftKeyPressed = true;
             }
-            if (evt.keyCode == SPACE_KEY) {
-                spaceKeyPressed = true;
+            if (evt.keyCode == UP_KEY) {
+                upKeyPressed = true;
+            }
+            if (evt.keyCode == DOWN_KEY) {
+                downKeyPressed = true;
             }
         }
+
 
         function keyReleased(evt) {
             console.log(evt.keyCode)
@@ -68,8 +75,11 @@
             if (evt.keyCode == LEFT_KEY) {
                 leftKeyPressed = false;
             }
-            if (evt.keyCode == SPACE_KEY) {
-                spaceKeyPressed = false;
+            if (evt.keyCode == UP_KEY) {
+                upKeyPressed = false;
+            }
+            if (evt.keyCode == DOWN_KEY) {
+                downKeyPressed = false;
             }
         }
 
@@ -87,8 +97,11 @@
 
             playerYspeed += fallRate;
 
-            if (spaceKeyPressed) {
+            if (upKeyPressed) {
                 playerYspeed = jumpPower;
+            }
+            if (downKeyPressed) {
+                playerYspeed = fallPower;
             }
 
             if (playerYpos + PLAYER_SIZE >= canvas.height) {
@@ -112,8 +125,3 @@
 
     </script>
 </body>
-
-
-
-
-
