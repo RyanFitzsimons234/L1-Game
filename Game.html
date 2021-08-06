@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="900" height="400"></canvas>
+    <canvas id="gameCanvas" width="1800" height="900"></canvas>
     <script>
         var canvas, canvasContext;
 
@@ -19,11 +19,17 @@
             setInterval(mainloop, 1000 / 50);
         }
 
-        var playerXpos = 150;
-        var playerYpos = 150;
+        var playerXpos = 360;
+        var playerYpos = 450;
         var playerXspeed = 4;
         var playerYspeed = 4;
-
+        var jumpPower = -5;
+        var fallRate = 0.2;
+        var enemyXpos =500;
+        var enemyYpos =500;
+        
+        const ENEMY_WIDTH = 50;
+        const ENEMY_HEIGHT = 100;
         const PLAYER_SIZE = 20;
         const LEFT_KEY = 37;
         const SPACE_KEY = 32;
@@ -36,6 +42,7 @@
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black');
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red');
+            colorRect(enemyXpos, enemyYpos, ENEMY_WIDTH, ENEMY_HEIGHT, 'blue');
 
             playerMove();
         }
@@ -66,6 +73,8 @@
             }
         }
 
+
+
         function playerMove() {
             if (rightKeyPressed && playerXpos < canvas.width * .6) {
                 playerXpos += playerXspeed;
@@ -76,58 +85,24 @@
 
             playerYpos += playerYspeed;
 
-            playerYspeed += 0.2;
+            playerYspeed += fallRate;
 
             if (spaceKeyPressed) {
-                playerYspeed = -5;;
+                playerYspeed = jumpPower;
             }
 
-            if (playerYpos > canvas.height) {
-                playerYpos = 0;
+            if (playerYpos + PLAYER_SIZE >= canvas.height) {
+                playerYpos = canvas.height - PLAYER_SIZE; // stop on bottom of screen
+                playerYspeed = jumpPower;
             }
-        }
 
-
-        /* function keyPressed(evt) {
-            console.log(evt.keyCode)
-            if (evt.keyCode == LEFT_KEY) {
-                rightKeyPressed = true;
+            if (playerYpos <= 0) {
+                playerYpos = 0; // stop moving up
+                playerYspeed = fallRate * 2; // move downwards
             }
-        }
-
-        function keyReleased(evt) {
-            console.log(evt.keyCode)
-            if (evt.keyCode == LEFT_KEY) {
-                rightKeyPressed = false;
-            }
-        }
-
-        function playerMove() {
-            if (rightKeyPressed) {
-                playerXpos -= playerXspeed;
-            }
-        }
+        } // end func
 
 
-        function keyPressed(evt) {
-            console.log(evt.keyCode)
-            if (evt.keyCode == SPACE_KEY) {
-                spaceKeyPressed = true;
-            }
-        }
-
-        function keyReleased(evt) {
-            console.log(evt.keyCode)
-            if (evt.keyCode == SPACE_KEY) {
-                spaceKeyPressed = false;
-            }
-        }
-
-        function playerMove() {
-            if (spaceKeyPressed) {
-                playerYpos -= playerYspeed;
-            }
-        }                                      */
 
 
         function colorRect(x, y, w, h, c) {
@@ -141,4 +116,4 @@
 
 
 
-32 = space
+
