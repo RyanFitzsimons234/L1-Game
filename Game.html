@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="1800" height="900"></canvas>
+    <canvas id="gameCanvas" width="1800" height="800"></canvas>
     <script>
         var canvas, canvasContext;
 
@@ -23,24 +23,27 @@
         var playerYpos = 450;
         var playerXspeed = 4;
         var playerYspeed = 4;
-        var jumpPower = -10;
+        var jumpPower = -5;
+        var superjump = -10;
         var fallPower = 10;
         var fallRate = 0.2;
         var enemyXpos = 500;
         var enemyYpos = 500;
 
         const ENEMY_WIDTH = 50;
-        const ENEMY_HEIGHT = 100;
+        const ENEMY_HEIGHT = 500;
         const PLAYER_SIZE = 20;
         const LEFT_KEY = 37;
         const UP_KEY = 38;
         const RIGHT_KEY = 39;
         const DOWN_KEY = 40;
+        const SPACE_KEY = 32;
 
         var leftKeyPressed = false;
         var rightKeyPressed = false;
         var upKeyPressed = false;
         var downKeyPressed = false;
+        var spaceKeyPressed = false;
 
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black');
@@ -64,6 +67,9 @@
             if (evt.keyCode == DOWN_KEY) {
                 downKeyPressed = true;
             }
+            if (evt.keyCode == SPACE_KEY) {
+                spaceKeyPressed = true;
+            }
         }
 
 
@@ -81,6 +87,9 @@
             if (evt.keyCode == DOWN_KEY) {
                 downKeyPressed = false;
             }
+            if (evt.keyCode == SPACE_KEY) {
+                spaceKeyPressed = false;
+            }
         }
 
 
@@ -97,6 +106,9 @@
 
             playerYspeed += fallRate;
 
+            if (spaceKeyPressed) {
+                playerYspeed = superjump;
+            }
             if (upKeyPressed) {
                 playerYspeed = jumpPower;
             }
