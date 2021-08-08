@@ -28,7 +28,7 @@
         var fallPower = 10;
         var fallRate = 0.2;
         var enemyXpos = 500;
-        var enemyYpos = 500;
+        var enemyYpos = 100;
         var enemyXspeed = 5;
 
         const ENEMY_WIDTH = 50;
@@ -52,7 +52,7 @@
             colorRect(enemyXpos, enemyYpos, ENEMY_WIDTH, ENEMY_HEIGHT, 'blue');
 
             playerMove();
-            enemyMove();
+            enemymove();
         }
 
         function keyPressed(evt) { //Player Right Movement
@@ -129,10 +129,9 @@
             }
         } // end func
 
-        function enemymove(){
-            {
-                if ()
-            }
+        function enemymove() {
+                enemyXpos -= enemyXspeed;
+            if (enemyXpos =)
         }
 
 
