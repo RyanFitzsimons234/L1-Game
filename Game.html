@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="1800" height="800"></canvas>
+    <canvas id="gameCanvas" width="1000" height="800"></canvas>
     <script>
         var canvas, canvasContext;
 
@@ -29,6 +29,7 @@
         var fallRate = 0.2;
         var enemyXpos = 500;
         var enemyYpos = 500;
+        var enemyXspeed = 5;
 
         const ENEMY_WIDTH = 50;
         const ENEMY_HEIGHT = 500;
@@ -51,6 +52,7 @@
             colorRect(enemyXpos, enemyYpos, ENEMY_WIDTH, ENEMY_HEIGHT, 'blue');
 
             playerMove();
+            enemyMove();
         }
 
         function keyPressed(evt) { //Player Right Movement
@@ -127,6 +129,11 @@
             }
         } // end func
 
+        function enemymove(){
+            {
+                if ()
+            }
+        }
 
 
 
