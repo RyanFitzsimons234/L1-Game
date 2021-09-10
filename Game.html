@@ -195,7 +195,10 @@
                     e.enemyXspeed = Math.floor(Math.random(i) * (15 - 5) + 5);
 
                 }
-                if(e.enemyXpos < playerXpos + PLAYER_SIZE && e.enemyXpos + e.ENEMY_WIDTH > playerXpos && e.enemyYpos < playerYpos + PLAYER_SIZE &&){
+                if(e.enemyXpos < playerXpos + PLAYER_SIZE &&
+                   e.enemyXpos + e.ENEMY_WIDTH > playerXpos &&
+                   e.enemyYpos < playerYpos + PLAYER_SIZE &&
+                   e.enemyYpos + e.ENEMY_HEIGHT > playerYpos ){
                    console.log('hit')
                 }
             })
