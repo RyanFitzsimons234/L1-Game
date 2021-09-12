@@ -67,6 +67,7 @@
             playerMove();
             enemymove();
             //   enemyhit();
+            // point();
         }
 
 
@@ -167,14 +168,18 @@
             );
         }
 
+        var enemyCounter = 0;
+        
         function makeEnemy() { // gets all info for each enemy and pushes into array
 
             var ENEMY_WIDTH = 50;
             var ENEMY_HEIGHT = 200;
             var enemyYpos = Math.floor(Math.random() * (canvas.height - ENEMY_HEIGHT));
-            var enemyXpos = canvas.width;
+            var enemyXpos = canvas.width + enemyCounter * (ENEMY_WIDTH * 3);
             var enemyXspeed = 5;
 
+            enemyCounter++;
+            
             var enemy = {
                 enemyYpos: enemyYpos,
                 enemyXpos: enemyXpos,
@@ -201,6 +206,9 @@
                    e.enemyYpos + e.ENEMY_HEIGHT > playerYpos ){
                    console.log('hit')
                 }
+                if(e.enemyXpos < playerXpos + PLAYER_SIZE &&
+                   e.enemyXpos + e.ENEMY_WIDTH > playerXpos)
+                    console.log('point')
             })
         }
 
