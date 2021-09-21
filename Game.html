@@ -1,7 +1,7 @@
 <!doctype html>
 
 <head>
-    <title>Canvas tutorial</title>
+    <title>Floppy Seagul</title>
 </head>
 
 <body>
@@ -15,6 +15,7 @@
 
             document.addEventListener('keydown', keyPressed); //keyPressed = made function 
             document.addEventListener('keyup', keyReleased); //keyReleased = made function 
+//            document.addEventListener('', death)
 
             setInterval(mainloop, 1000 / 50);
         }
@@ -43,31 +44,39 @@
 
 
         var enemies = [];
-        var enemyYpos = 500;
-        var enemyXpos = 1000;
-        var ENEMY_WIDTH = 50;
-        var ENEMY_HEIGHT = 500;
+        
+        var score = 0;
 
         var starting = true;
-
+        var playing = true;
+        
+        
+        
         function mainloop() {
-            colorRect(0, 0, canvas.width, canvas.height, 'black');
-            colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red');
-            colorRect(enemyXpos, enemyYpos, ENEMY_WIDTH, ENEMY_HEIGHT, 'blue');
+            if(playing){
+               
+                colorRect(0, 0, canvas.width, canvas.height, 'black');
+                colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red');
 
-            if (starting) {
-                enemyYpos = canvas.height / 2;
-                for (var i = 0; i < 10; i++) {
-                    makeEnemy();
+                if (starting) {
+                    enemyYpos = canvas.height / 2;
+                    for (var i = 0; i < 10; i++) {
+                        makeEnemy();
+                    }
+                    starting = false;
                 }
-                starting = false;
-            }
 
-            drawEnemy();
-            playerMove();
-            enemymove();
-            //   enemyhit();
-            // point();
+                drawEnemy();
+                playerMove();
+                enemymove();
+                colorText('score: '  + score , 10 , 20, '20px Arial','white')
+                //   enemyhit();
+                // point();
+            } else {
+                colorRect(0, 0, canvas.width, canvas.height, 'red');
+                colorText('score: '  + score , 100 , 50, '40px Arial','black')
+            
+            }
         }
 
 
@@ -196,20 +205,22 @@
 
                 e.enemyXpos -= e.enemyXspeed;
                 if (e.enemyXpos < 0) {
-                    e.enemyXpos = 1500      
+                    e.enemyXpos = canvas.width - e.ENEMY_WIDTH      
                     e.enemyXspeed = Math.floor(Math.random(i) * (15 - 5) + 5);
-
+                    score++;
                 }
+                
                 if(e.enemyXpos < playerXpos + PLAYER_SIZE &&
                    e.enemyXpos + e.ENEMY_WIDTH > playerXpos &&
                    e.enemyYpos < playerYpos + PLAYER_SIZE &&
                    e.enemyYpos + e.ENEMY_HEIGHT > playerYpos ){
-                   console.log('hit')
+                   playing = false;
                 }
-                if(e.enemyXpos < playerXpos + PLAYER_SIZE &&
-                   e.enemyXpos + e.ENEMY_WIDTH > playerXpos)
-                    console.log('point')
-            })
+//                if(e.enemyXpos + e.ENEMY_WIDTH < playerXpos + PLAYER_SIZE &&
+//                   e.enemyXpos + e.ENEMY_WIDTH > playerXpos){
+//                    console.log('point')
+//                }
+            });
         }
 
 
@@ -217,6 +228,12 @@
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
+        }
+        
+        function colorText(msg,x,y,f,c){
+            canvasContext.font = f;
+            canvasContext.fillStyle = c;
+            canvasContext.fillText(msg, x, y);
         }
 
     </script>
