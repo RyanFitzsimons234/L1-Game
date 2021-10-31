@@ -28,6 +28,26 @@
         var superjump = -10;
         var fallPower = 10;
         var fallRate = 0.2;
+        
+        var username = '';
+        while (username =='' || username == null){
+            username = prompt ('what is your name?')
+        }
+        
+        var diffculty = '';
+        var pass = false;
+        
+        while(pass == false ){
+            diffculty = prompt('how hard do you want it?','easy' )
+            if(diffculty != null){
+                pass = true;
+                //convert difficulty to lower case 'EaSy'
+            }
+        }
+        
+        if(diffculty == 'easy'){
+           enemyXspeed = 10;
+           }
 
         const PLAYER_SIZE = 20;
         const LEFT_KEY = 37;
