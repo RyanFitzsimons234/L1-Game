@@ -38,8 +38,9 @@
         var pass = false;
         
         while(pass == false ){
-            diffculty = prompt('how hard do you want it?','easy' )
-            if(diffculty != null){
+            diffculty = prompt('how hard do you want it?','easy, medium or hard' )
+            diffculty = diffculty.toLowerCase()
+            if (diffculty == 'easy' || diffculty == 'medium'){
                 pass = true;
                 //convert difficulty to lower case 'EaSy'
             }
