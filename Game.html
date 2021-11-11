@@ -15,7 +15,6 @@
 
             document.addEventListener('keydown', keyPressed); //keyPressed = made function 
             document.addEventListener('keyup', keyReleased); //keyReleased = made function 
-//            document.addEventListener('', death)
 
             setInterval(mainloop, 1000 / 50);
         }
@@ -26,63 +25,95 @@
         var playerYspeed = 4;
         var jumpPower = -5;
         var superjump = -10;
-        var fallPower = 10;
-        var fallRate = 0.2;
+        var fallPower = 10; // variables for enemy movement
 
-        const PLAYER_SIZE = 20;
+        var fallRate = 0.2; //variable for gravity
+
+        var username = '';
+        while (username == '' || username == null) {
+            username = prompt('what is your name?') //asks user for a name
+        } // end func
+
+        var diffculty = '';
+        var pass = false;
+
+        while (pass == false) {
+            diffculty = prompt('how hard do you want it?', 'easy, medium or hard')
+            diffculty = diffculty.toLowerCase()
+            if (diffculty == 'easy' || diffculty == 'medium' || diffculty == 'hard' || diffculty == 'asian') {
+                pass = true;
+                //convert difficulty to lower case 'EaSy'
+            }
+        } // end func
+
+        if (diffculty == 'easy') {
+            enemyXspeed = 5;
+        }
+
+        if (diffculty == 'medium') {
+            enemyXspeed = 10;
+        }
+
+        if (diffculty == 'hard') {
+            enemyXspeed = 15;
+        }
+        if (diffculty == 'asian') {
+            enemyXspeed = 50;
+        } //changes enemyxspeed to a value based on difficulty
+
+        const PLAYER_SIZE = 20; // the players size
+
         const LEFT_KEY = 37;
         const UP_KEY = 38;
         const RIGHT_KEY = 39;
         const DOWN_KEY = 40;
-        const SPACE_KEY = 32;
+        const SPACE_KEY = 32; //the numbers for each pressable key 
 
         var leftKeyPressed = false;
         var rightKeyPressed = false;
         var upKeyPressed = false;
         var downKeyPressed = false;
-        var spaceKeyPressed = false;
+        var spaceKeyPressed = false; //meaning the player starts off with having no keys pressed
 
 
         var enemies = [];
-        
+
         var score = 0;
 
         var starting = true;
         var playing = true;
-        
-        
-        
-        function mainloop() {
-            if(playing){
-               
-                colorRect(0, 0, canvas.width, canvas.height, 'black');
-                colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red');
+
+
+
+        function mainloop() { //constanly updates the code while the program is running
+            if (playing) {
+
+                colorRect(0, 0, canvas.width, canvas.height, 'black'); //makes the canvas
+                colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //makes the player
 
                 if (starting) {
                     enemyYpos = canvas.height / 2;
                     for (var i = 0; i < 10; i++) {
                         makeEnemy();
-                    }
+                    } // makes enemies
                     starting = false;
                 }
 
                 drawEnemy();
                 playerMove();
                 enemymove();
-                colorText('score: '  + score , 10 , 20, '20px Arial','white')
-                //   enemyhit();
-                // point();
+                colorText('score: ' + score, 10, 20, '20px Arial', 'white') //allows the user to see the score
             } else {
                 colorRect(0, 0, canvas.width, canvas.height, 'red');
-                colorText('score: '  + score , 100 , 50, '40px Arial','black')
-            
+                colorText(username + ', you scored ' + score, 100, 50, '40px Arial', 'black') //changes screen when player dies
+
             }
-        }
+        } // end func
 
 
 
 
-        function keyPressed(evt) { //Player Right Movement
+        function keyPressed(evt) { //when key is pressed sets the key pressed to true
             console.log(evt.keyCode)
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = true;
@@ -99,10 +130,10 @@
             if (evt.keyCode == SPACE_KEY) {
                 spaceKeyPressed = true;
             }
-        }
+        } // end func
 
 
-        function keyReleased(evt) {
+        function keyReleased(evt) { // when key is released sets the key pressed to false
             console.log(evt.keyCode)
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = false;
@@ -119,122 +150,109 @@
             if (evt.keyCode == SPACE_KEY) {
                 spaceKeyPressed = false;
             }
-        }
+        } // end func
 
 
 
         function playerMove() {
             if (rightKeyPressed && playerXpos < canvas.width * .6) {
-                playerXpos += playerXspeed;
+                playerXpos += playerXspeed; //creates a barrier to the right for the player 
             }
             if (leftKeyPressed && playerXpos > canvas.width * .2) {
-                playerXpos -= playerXspeed;
-            }
+                playerXpos -= playerXspeed; //creates a barrier to the left for the player 
 
-            playerYpos += playerYspeed;
+                playerYpos += playerYspeed;
 
-            playerYspeed += fallRate;
+                playerYspeed += fallRate;
 
-            if (spaceKeyPressed) {
-                playerYspeed = superjump;
-            }
-            if (upKeyPressed) {
-                playerYspeed = jumpPower;
-            }
-            if (downKeyPressed) {
-                playerYspeed = fallPower;
-            }
+                if (spaceKeyPressed) {
+                    playerYspeed = superjump; //when the press = true do function
+                }
+                if (upKeyPressed) {
+                    playerYspeed = jumpPower; //when the press = true do function
+                }
+                if (downKeyPressed) {
+                    playerYspeed = fallPower; //when the press = true do function
+                }
 
-            if (playerYpos + PLAYER_SIZE >= canvas.height) {
-                playerYpos = canvas.height - PLAYER_SIZE; // stop on bottom of screen
-                playerYspeed = jumpPower;
-            }
+                if (playerYpos + PLAYER_SIZE >= canvas.height) {
+                    playerYpos = canvas.height - PLAYER_SIZE; // stops the player when on bottom the of the screen
+                    playerYspeed = jumpPower;
+                }
 
-            if (playerYpos <= 0) {
-                playerYpos = 0; // stop moving up
-                playerYspeed = fallRate * 2; // move downwards
-            }
-        } // end func
+                if (playerYpos <= 0) {
+                    playerYpos = 0; // stop moving up
+                    playerYspeed = fallRate * 2; // move downwards
+                }
+            } // end func
 
-        function enemymove() {
-            enemyXpos -= enemyXspeed;
-            if (enemyXpos < -50)
-                enemyXpos = 1000;
-        }
-
+            function enemymove() {
+                enemyXpos -= enemyXspeed;
+                if (enemyXpos < -50)
+                    enemyXpos = 1000; //moves enemies across the screen
+            } // end func
 
 
-
-
-
-
-
-
-        function drawEnemy() {
-            enemies.forEach(function(e, i, array) {
+            function drawEnemy() {
+                enemies.forEach(function(e, i, array) {
                     colorRect(e.enemyXpos, e.enemyYpos, e.ENEMY_WIDTH, e.ENEMY_HEIGHT, 'blue');
+                }); //loops through array draws the enemy
+            } // end func
+
+            var enemyCounter = 0;
+
+            function makeEnemy() { // gets all info for each enemy and pushes into array
+
+                var ENEMY_WIDTH = 50;
+                var ENEMY_HEIGHT = 200;
+                var enemyYpos = Math.floor(Math.random() * (canvas.height - ENEMY_HEIGHT));
+                var enemyXpos = canvas.width + enemyCounter * (ENEMY_WIDTH * 3); //sets enemy at random position
+
+
+                enemyCounter++;
+
+                var enemy = { //gives enemy object values
+                    enemyYpos: enemyYpos,
+                    enemyXpos: enemyXpos,
+                    ENEMY_WIDTH: ENEMY_WIDTH,
+                    ENEMY_HEIGHT: ENEMY_HEIGHT,
+                    enemyXspeed: enemyXspeed
                 }
-            );
-        }
+                enemies.push(enemy); //pushes the clones into an array
 
-        var enemyCounter = 0;
-        
-        function makeEnemy() { // gets all info for each enemy and pushes into array
+            } // end func
 
-            var ENEMY_WIDTH = 50;
-            var ENEMY_HEIGHT = 200;
-            var enemyYpos = Math.floor(Math.random() * (canvas.height - ENEMY_HEIGHT));
-            var enemyXpos = canvas.width + enemyCounter * (ENEMY_WIDTH * 3);
-            var enemyXspeed = 5;
+            function enemymove() {
+                enemies.forEach(function(e, i, array) {
 
-            enemyCounter++;
-            
-            var enemy = {
-                enemyYpos: enemyYpos,
-                enemyXpos: enemyXpos,
-                ENEMY_WIDTH: ENEMY_WIDTH,
-                ENEMY_HEIGHT: ENEMY_HEIGHT,
-                enemyXspeed: enemyXspeed
-            }
-            enemies.push(enemy);
+                    e.enemyXpos -= e.enemyXspeed;
+                    if (e.enemyXpos < 0) {
+                        e.enemyXpos = canvas.width - e.ENEMY_WIDTH
+                        e.enemyXspeed = Math.floor(Math.random(i) * (enemyXspeed - 5) + 5);
+                        score++; //sets enemy clones a random speed that's near the original speed
+                    }
 
-        }
-
-        function enemymove() {
-            enemies.forEach(function(e, i, array) {
-
-                e.enemyXpos -= e.enemyXspeed;
-                if (e.enemyXpos < 0) {
-                    e.enemyXpos = canvas.width - e.ENEMY_WIDTH      
-                    e.enemyXspeed = Math.floor(Math.random(i) * (15 - 5) + 5);
-                    score++;
-                }
-                
-                if(e.enemyXpos < playerXpos + PLAYER_SIZE &&
-                   e.enemyXpos + e.ENEMY_WIDTH > playerXpos &&
-                   e.enemyYpos < playerYpos + PLAYER_SIZE &&
-                   e.enemyYpos + e.ENEMY_HEIGHT > playerYpos ){
-                   playing = false;
-                }
-//                if(e.enemyXpos + e.ENEMY_WIDTH < playerXpos + PLAYER_SIZE &&
-//                   e.enemyXpos + e.ENEMY_WIDTH > playerXpos){
-//                    console.log('point')
-//                }
-            });
-        }
+                    if (e.enemyXpos < playerXpos + PLAYER_SIZE &&
+                        e.enemyXpos + e.ENEMY_WIDTH > playerXpos &&
+                        e.enemyYpos < playerYpos + PLAYER_SIZE &&
+                        e.enemyYpos + e.ENEMY_HEIGHT > playerYpos) {
+                        playing = false; // when player is touching enemies kill the player
+                    }
+                });
+            } // end func
 
 
 
-        function colorRect(x, y, w, h, c) {
-            canvasContext.fillStyle = c;
-            canvasContext.fillRect(x, y, w, h);
-        }
-        
-        function colorText(msg,x,y,f,c){
-            canvasContext.font = f;
-            canvasContext.fillStyle = c;
-            canvasContext.fillText(msg, x, y);
-        }
+            function colorRect(x, y, w, h, c) { // creates a colored rectangle with parameters 
+                canvasContext.fillStyle = c;
+                canvasContext.fillRect(x, y, w, h);
+            } //end func
+
+            function colorText(msg, x, y, f, c) { // creates a colored text with parameters 
+                canvasContext.font = f;
+                canvasContext.fillStyle = c;
+                canvasContext.fillText(msg, x, y);
+            } //end func
 
     </script>
 </body>
